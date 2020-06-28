@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/image/**" location="/image/" />
+	<resources mapping="/css/**" location="/css/" />
+	<resources mapping="/preveal_images/**" location="/preveal_images/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	
+	<beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> 
+		<beans:property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/> 
+		<beans:property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/myparcel?useSSL=false&amp;serverTimezone=UTC"/> 
+		<beans:property name="username" value="root"/> 
+		<beans:property name="password" value="1234"/> 
+	</beans:bean>
+	
+	<!-- mybatis SqlSessionFactoryBean -->
+	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<beans:property name="dataSource" ref="dataSource"/>
+		<beans:property name="configLocation" value="classpath:/mybatis-config.xml"/>
+		<beans:property name="mapperLocations" value="classpath:mappers/*Mapper.xml"/>
+	</beans:bean>
+	
+		<!-- mybatis 	 -->
+	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+		destroy-method="clearCache">
+		<beans:constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</beans:bean>
+	
+
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    	<beans:property name="defaultEncoding" value="EUC-KR" /> <!-- 인코딩-->
+    	<beans:property name="maxUploadSize" value="-1"/>
+    	<beans:property name="maxInMemorySize" value="-1"/>
+    </beans:bean>
+    <beans:bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
+        <beans:constructor-arg>
+            <beans:value>c:/file/upload/</beans:value>
+        </beans:constructor-arg>
+    </beans:bean>
+	
+	
+    
+    
+    <context:component-scan base-package="com.c.myParcel" />
+	<context:component-scan base-package="com.c.dao"/>
+    <context:component-scan base-package="com.c.service"/>
+    
+	 
+</beans:beans>

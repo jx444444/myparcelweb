@@ -1,0 +1,8 @@
+.Products_button{
+	cursor:pointer;
+	border-radius:2px 2px 2px 2px;
+	transition:filter 0.25s;
+}
+.Products_button:hover{
+	-webkit-filter:brightness(150%)
+}

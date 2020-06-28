@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+	<configuration>
+		<typeAliases>
+			<typeAlias type="com.c.dto.MemberVO" alias="memberVO"/>
+			<typeAlias type="com.c.dto.ProductVO" alias="productVO"/>
+			<typeAlias type="com.c.dto.Basket_ProductVO" alias="basket_productVO"/>
+			<typeAlias type="com.c.dto.Preveal_ImageVO" alias="preveal_imageVO"/>
+			<typeAlias type="com.c.dto.OrderVO" alias="orderVO"/>
+			<typeAlias type="com.c.dto.Product_StarVO" alias="product_starVO"/>
+			<typeAlias type="com.c.dto.OrderProductPartVO" alias="orderproductpartVO"/>
+		</typeAliases>
+	</configuration>
+	

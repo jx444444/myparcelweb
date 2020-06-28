@@ -1,0 +1,11 @@
+#myparcelLogo{
+	cursor:pointer;
+	border-radius:5px 5px 5px 5px;
+	border:solid #134F68 1px;
+	transition:filter 0.2s;
+	transition:border 0.2s;
+}
+#myparcelLogo:hover{
+	border: solid white 1px;
+	-webkit-filter:brightness(150%)
+}

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<home>
+		MY Parcel:Online Shopping
+		Enter search term
+		Korean - KO
+		English - EN
+		Japanese - JP
+		Login
+		Order
+		Shopping Basket
+		Today's Deal
+		Sign out
+	</home>
+	<productkind>
+		Every Part
+		Toys and Games
+		Kindle Store
+		Prime Video
+		Book
+		Digital music
+		Beauty and Personal Care
+		Arts and crafts
+		Child
+		Motor goods
+		Electronic devices
+		Computer
+		Women's fashion
+		Men's fashion
+		Girl's fashion
+		Boy's fashion
+		Home and kitchen
+		Health and family
+		Tools and housing.
+		Deal
+		Companion animal product
+		Video game
+		For industrial and scientific use
+		Software
+		Baggage
+		Sports and outdoor activities
+		Movies and TV
+		Music, CDs, and records
+	</productkind>
+	<login>
+		Login
+		Email (or phone for mobile accounts)
+		Password
+		Create My Account
+		Username
+		Re-enter Password
+		Create MyParcel Properties
+		(minimum 6 characters)
+	</login>
+	<product>
+		MY Parcel:Products
+		Quantity
+		Direct purchase
+		Add to Cart
+		Stored in Cart
+		Give a Star
+	</product>
+	<basket>
+		MY Parcel:Cart
+		Price
+		Quantity
+		Delete
+		Subtotal
+		Item
+		Order all checked items
+		There are no checked items.
+		Are you sure you want to delete the product in shopping cart?
+	</basket>
+	<order>
+		MY Parcel:Order details
+		total price
+		Order Quantity
+		Order Cancel
+		Subtotal
+		Item
+		Shipping location
+		Order Date
+		정말 주문을 취소하시겠습니까?
+	</order>
+	<orderwindow>
+		Order
+		The product you want to buy
+		Ordering person
+		Shipping location
+		Gross amount
+		Check.
+		Product
+		Quantity
+	</orderwindow>
+	<search>
+		MY Parcel: 
+		Department
+		Average Customer Review
+		Brand
+		More than
+		A low order of prices
+		A high order of prices
+		New product
+	</search>
+	<message>
+	This user does not exist and will be forcefully logged out.
+	The email or password is incorrect.
+	Password must be at least 6 characters long.
+	Password and password re-enter must be the same.
+	Email already exists.
+	</message>
+</root>

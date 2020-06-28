@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.c.mapper.mainMapper">
+
+	<!-- 
+		mybatis-config.xml의 typeAlias에 등록해두지 않았다면 
+		
+		<select id="selectMember" resultType="com.example.dto.MemberVO" >
+			SELECT ID, PW ,NAME FROM TEST
+		</select>
+		
+		이렇게 해야 한다.
+	-->
+	
+	<select id="selectMember" resultType="memberVO">
+		SELECT * FROM user order by FROM_BASE64(`index`) desc
+	</select>
+	
+	<select id="selectProduct" resultType="productVO">
+		SELECT * FROM product order by FROM_BASE64(`index`) desc
+	</select>
+	
+	<select id="selectBasket_Product" resultType="basket_productVO">
+		SELECT * FROM basket_product
+	</select>
+	
+	<select id="selectPreveal_Image" resultType="preveal_imageVO">
+		SELECT * FROM preveal_image
+	</select>
+	
+	<select id="selectOrder" resultType="orderVO">
+		SELECT * FROM `order` order by FROM_BASE64(`index`) desc
+	</select>
+	
+	<select id="selectProduct_Star" resultType="product_starVO">
+		SELECT * FROM product_star
+	</select>
+
+	<select id="selectMember_userindex" resultType="memberVO" parameterType="String">
+		SELECT * FROM user where `index`=#{index}
+	</select>
+	
+	
+	
+	<select id="selectMember_idcheck" resultType="memberVO" parameterType="String">
+		SELECT * FROM user where email = #{email}
+	</select>
+	<select id="selectMember_login" resultType="memberVO" parameterType="memberVO">
+		SELECT * FROM user where email = #{email} and password = #{password}
+	</select>
+	<select id="insertMember" parameterType="memberVO">
+		insert into user values(#{index},#{email},#{password},#{money},#{name})
+	</select>
+	<delete id="deleteMember" parameterType="String">
+		delete from user where `index`=#{index}
+	</delete>
+	<update id="updateMember" parameterType="memberVO">
+		update user set email = #{email},password = #{password},name = #{name}
+		where `index` = #{index}
+	</update>
+	
+	
+	
+	<select id="selectProduct_product_index" resultType="productVO" parameterType="String">
+		SELECT * FROM product where `index`=#{index}
+	</select>
+	<select id="selectProduct_product_star" resultType="productVO">
+		select * FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index group by product_star.product_index order by IFNULL(avg(FROM_BASE64(product_star.star)),0) desc;
+	</select>
+	<select id="selectProduct_name" resultType="productVO" parameterType="String">
+		SELECT * FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.name) like #{name}
+		and product.index=product_star.product_index 
+		group by product_star.product_index order by IFNULL(avg(FROM_BASE64(product_star.star)),0) desc
+	</select>
+	
+	
+	
+	<select id="selectProduct_name_kind" resultType="productVO" parameterType="productVO">
+		SELECT * FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.name) like #{name}
+		and FROM_BASE64(product.tag) like #{tag}
+		and FROM_BASE64(product.brand) like #{brand}
+		and ( (FROM_BASE64(product.kind)=#{kind} and (#{kind} != '-1') ) or #{kind}='-1')
+		group by product_star.product_index 
+		HAVING IFNULL(ROUND(avg(FROM_BASE64(product_star.star))),0) >= #{extra}
+		order by IFNULL(avg(FROM_BASE64(product_star.star)),0) desc 
+	</select>
+	<select id="selectProduct_name_tag" resultType="String" parameterType="productVO">
+		SELECT product.tag FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.name) like #{name}
+		and FROM_BASE64(product.tag) like #{tag}
+		and FROM_BASE64(product.brand) like #{brand}
+		and ( (FROM_BASE64(product.kind)=#{kind} and (#{kind} != '-1') ) or #{kind}='-1')
+		group by product_star.product_index 
+		HAVING IFNULL(ROUND(avg(FROM_BASE64(product_star.star))),0) >= #{extra}
+		order by IFNULL(avg(FROM_BASE64(product_star.star)),0) desc 
+	</select>
+	
+	<select id="selectProduct_name_brand" resultType="String" parameterType="productVO">
+		SELECT product.brand FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.name) like #{name}
+		and FROM_BASE64(product.tag) like #{tag}
+		and FROM_BASE64(product.brand) like #{brand}
+		and ( (FROM_BASE64(product.kind)=#{kind} and (#{kind} != '-1') ) or #{kind}='-1')
+		group by product_star.product_index 
+		HAVING IFNULL(ROUND(avg(FROM_BASE64(product_star.star))),0) >= #{extra}
+		order by IFNULL(avg(FROM_BASE64(product_star.star)),0) desc 
+	</select>
+	
+	
+	
+	
+	<select id="selectProduct_name_kind_paydesc" resultType="productVO" parameterType="productVO">
+		SELECT * FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.name) like #{name}
+		and FROM_BASE64(product.tag) like #{tag}
+		and FROM_BASE64(product.brand) like #{brand}
+		and ( (FROM_BASE64(product.kind)=#{kind} and (#{kind} != '-1') ) or #{kind}='-1')
+		group by product_star.product_index 
+		HAVING IFNULL(ROUND(avg(FROM_BASE64(product_star.star))),0) >= #{extra}
+		order by CONVERT(FROM_BASE64(product.pay), UNSIGNED) desc 
+	</select>
+	
+	
+	
+	
+	
+	<select id="selectProduct_name_kind_payasc" resultType="productVO" parameterType="productVO">
+		SELECT * FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.name) like #{name}
+		and FROM_BASE64(product.tag) like #{tag}
+		and FROM_BASE64(product.brand) like #{brand}
+		and ( (FROM_BASE64(product.kind)=#{kind} and (#{kind} != '-1') ) or #{kind}='-1')
+		group by product_star.product_index 
+		HAVING IFNULL(ROUND(avg(FROM_BASE64(product_star.star))),0) >= #{extra}
+		order by CONVERT(FROM_BASE64(product.pay), UNSIGNED) asc 
+	</select>
+	
+	
+	
+	
+	<select id="selectProduct_name_kind_day" resultType="productVO" parameterType="productVO">
+		SELECT * FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.name) like #{name}
+		and FROM_BASE64(product.tag) like #{tag}
+		and FROM_BASE64(product.brand) like #{brand}
+		and ( (FROM_BASE64(product.kind)=#{kind} and (#{kind} != '-1') ) or #{kind}='-1')
+		group by product_star.product_index 
+		HAVING IFNULL(ROUND(avg(FROM_BASE64(product_star.star))),0) >= #{extra}
+		order by product.day desc
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	<select id="selectProduct_productpage_anothertag" resultType="productVO" parameterType="productVO">
+		SELECT * FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.tag) like #{tag}
+		and product.index != #{index}
+		group by product_star.product_index 
+		order by IFNULL(avg(FROM_BASE64(product_star.star)),0) desc 
+	</select>
+	
+	<select id="selectProduct_productpage_anotherbrand" resultType="productVO" parameterType="productVO">
+		SELECT * FROM product LEFT OUTER JOIN product_star ON product.index = product_star.product_index
+		where FROM_BASE64(product.brand) like #{brand}
+		and product.index != #{index}
+		group by product_star.product_index 
+		order by IFNULL(avg(FROM_BASE64(product_star.star)),0) desc 
+	</select>
+	
+	
+	
+	
+	<select id="selectProduct_index_tag" resultType="String" parameterType="String">
+		SELECT tag FROM myparcel.product
+		where `index` = #{index}
+	</select>
+	
+	<select id="selectProduct_index_brand" resultType="String" parameterType="String">
+		SELECT brand FROM myparcel.product
+		where `index` = #{index}
+	</select>
+	
+	
+	
+	
+	<select id="insertProduct" parameterType="productVO">
+		insert into product values(#{index},#{name},#{pay},#{explanatory},#{by},#{kind},#{day},#{extra},#{tag},#{brand})
+	</select>
+	<delete id="deleteProduct" parameterType="String">
+		delete from product 
+		where `index`=#{index}
+	</delete>
+	<update id="updateProduct" parameterType="productVO">
+		update product set name = #{name},pay = #{pay},explanatory = #{explanatory},by = #{by},kind = #{kind}
+		where `index` = #{index}
+	</update>
+	
+	
+	
+	
+	<select id="selectBasket_Product_usersbasket" resultType="basket_productVO" parameterType="String">
+		SELECT * FROM basket_product 
+		where `user`=#{user} order by `day`;
+	</select>
+	<select id="selectBasket_Product_basketproduct" resultType="basket_productVO" parameterType="basket_productVO">
+		SELECT * FROM basket_product 
+		where `user`=#{user} and `product_index`=#{product_index};
+	</select>
+	<select id="insertBasket_Product" parameterType="basket_productVO">
+		insert into basket_product values(#{user},#{product_index},#{day},#{num},#{checked})
+	</select>
+	<delete id="deleteBasket_Product" parameterType="basket_productVO">
+		delete from basket_product where `user`=#{user} and `product_index`=#{product_index}
+	</delete>
+	<delete id="deleteBasket_user_index" parameterType="String">
+		delete from basket_product where `user`=#{user}
+	</delete>
+	<delete id="deleteBasket_Product_index" parameterType="basket_productVO">
+		delete from basket_product where `product_index`=#{product_index}
+	</delete>
+	<select id="selectBasket_Product_usersbasket_paytotal" resultType="String" parameterType="String">
+		SELECT IFNULL(sum(FROM_BASE64(b.pay)*FROM_BASE64(a.num)),0) FROM basket_product a, product b where a.user=#{user} and a.product_index=b.index and `checked`='MQ==';
+	</select>
+	<select id="selectBasket_Product_usersbasket_counttotal" resultType="String" parameterType="String">
+		SELECT IFNULL(sum(FROM_BASE64(a.num)),0) FROM basket_product a, product b where a.user=#{user} and a.product_index=b.index and `checked`='MQ==';
+	</select>
+	<update id="updateBasket_Product" parameterType="basket_productVO">
+		update basket_product set num = #{num} where `user` = #{user} and `product_index` = #{product_index};
+	</update>
+	<update id="updateBasket_Product_checked" parameterType="basket_productVO">
+		update basket_product set checked = #{checked} where `user` = #{user} and `product_index` = #{product_index};
+	</update>
+	<update id="updateBasket_Product_allchecked" parameterType="basket_productVO">
+		update basket_product set checked = #{checked} where `user` = #{user};
+	</update>
+	<select id="selectBasket_Product_usersbasket_checked" resultType="basket_productVO" parameterType="String">
+		SELECT * FROM basket_product where `user`=#{user} and `checked`='MQ==';
+	</select>
+	<select id="selectBasket_Product_usersbasket_checkedcount" resultType="String" parameterType="String">
+		SELECT count(*) FROM basket_product where `user`=#{user} and `checked`='MQ==';
+	</select>
+	<select id="selectBasket_Product_usersbasket_count" resultType="String" parameterType="String">
+		SELECT count(*) FROM basket_product where `user`=#{user} ;
+	</select>
+	
+	
+	<select id="selectPreveal_Image_product_index" resultType="preveal_imageVO" parameterType="String">
+		SELECT * FROM preveal_image where `product_index`=#{index}
+	</select>
+	<select id="insertPreveal_Image" parameterType="preveal_imageVO">
+		insert into preveal_image values(#{product_index},#{imagenum},#{image_name},#{fn_Extension})
+	</select>
+	<delete id="deletePreveal_Image" parameterType="preveal_imageVO">
+		delete from preveal_image where `product_index`=#{product_index}
+	</delete>
+	<update id="updatePreveal_Image" parameterType="preveal_imageVO">
+		update preveal_image set imagenum = #{imagenum}, image_name = #{image_name}, fn_Extension = #{fn_Extension}
+		where `index` = #{index}
+	</update>
+	
+	
+	<select id="selectOrder_userorder" resultType="orderVO" parameterType="String">
+		SELECT * FROM `order` where `user`=#{user} order by `day` desc
+	</select>
+	<select id="insertOrder" parameterType="orderVO">
+		insert into `order` values(#{index},#{user},#{shipping_place},#{day})
+	</select>
+	<delete id="deleteOrder" parameterType="String">
+		delete from `order` where `index`=#{index}
+	</delete>
+	<delete id="deleteOrder_userindex" parameterType="String">
+		delete from `order` where `user`=#{user}
+	</delete>
+	
+	
+	<select id="selectProduct_Star_count" resultType="String" parameterType="String">
+		SELECT IFNULL(count(*),0) as poeple FROM myparcel.product_star where product_index=#{productindex};
+	</select>
+	<select id="selectProduct_Star_avg" resultType="String" parameterType="String">
+		SELECT IFNULL(avg(FROM_BASE64(star)),0) as avg FROM myparcel.product_star where product_index=#{productindex};
+	</select>
+	<select id="insertProduct_Star" parameterType="product_starVO">
+		insert into `product_star` values(#{user},#{product_index},#{star})
+	</select>
+	<delete id="deleteProduct_Star" parameterType="product_starVO">
+		delete from `product_star` where `user`=#{user} and `product_index`=#{product_index}
+	</delete>
+	<delete id="deleteProduct_Star_userindex" parameterType="String">
+		delete from `product_star` where `user`=#{user}
+	</delete>
+	<delete id="deleteProduct_Star_productindex" parameterType="String">
+		delete from `product_star` where `product_index`=#{product_index}
+	</delete>
+	<select id="selectProduct_Star_user_prd" resultType="product_starVO" parameterType="product_starVO">
+		SELECT * FROM product_star where `user`=#{user} and `product_index`=#{product_index}
+	</select>
+	
+	
+	<select id="selectorderproductpart" resultType="orderproductpartVO" >
+		SELECT * FROM orderproductpart ;
+	</select>
+	<select id="selectorderproductpart_orderindex" resultType="orderproductpartVO" parameterType="String">
+		SELECT * FROM orderproductpart where order_index=#{order_index};
+	</select>
+	<select id="insertorderproductpart" parameterType="orderproductpartVO">
+		insert into `orderproductpart` values(#{product_index},#{order_index},#{num})
+	</select>
+	<delete id="deleteorderproductpart" parameterType="String">
+		delete from `orderproductpart` where `order_index`=#{order_index}
+	</delete>
+	<delete id="deleteorderproductpart_productindex" parameterType="String">
+		delete from `orderproductpart` where `product_index`=#{product_index}
+	</delete>
+	
+	
+	
+	<select id="select_empty_orderpart" resultType="String" parameterType="String">
+		select count(*) as c from orderproductpart where order_index=#{order_index}
+	</select>
+	<select id="select_empty_order" resultType="String" parameterType="String">
+		select count(*) as c from `order` where `index`=#{index}
+	</select>
+	
+</mapper>
