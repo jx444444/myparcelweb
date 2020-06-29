@@ -15,5 +15,10 @@ public class Moblie_LoginVO {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+	public Moblie_LoginVO(String index, String uuid) {
+		super();
+		this.index = index;
+		this.uuid = uuid;
+	}
 	
 }

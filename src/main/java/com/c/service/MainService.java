@@ -76,4 +76,5 @@ public interface MainService {
 	
 	public List<Moblie_LoginVO> select_mobilelogin(String userindex) throws Exception;
 	public int delete_mobilelogin(String userindex) throws Exception;
+	public int insert_mobilelogin(Moblie_LoginVO moblie_LoginVO) throws Exception;
 }

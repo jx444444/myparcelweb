@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
 {"ml":[
-<c:forEach var="item" items="${service.select_mobilelogin(userindex)}" varStatus="status">
+<c:forEach var="item" items="${service.select_mobilelogin(uuid)}" varStatus="status">
 {
 	"index": "${item.index}",
 	"uuid": "${item.uuid}"

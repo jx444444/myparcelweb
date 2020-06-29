@@ -64,7 +64,7 @@ public class HomeController {
 	
 	Base64Encoding encoder;
 	Base64Decoding decoder;
-	String prevealimagesavepath = "F:/springtest2/myParcel/src/main/webapp/preveal_images/";
+	String prevealimagesavepath = "C:/Users/user/git/myparcelweb/src/main/webapp/preveal_images/";
 	@Inject
 	private MainService service;
 	
@@ -91,9 +91,10 @@ public class HomeController {
 	@RequestMapping(value = "/sessiontest", method = RequestMethod.GET)
 	public String sessiontest(HttpServletRequest request, HttpServletResponse response, Locale locale, Model model) throws Exception {
 		HttpSession session = request.getSession();
-		session.setAttribute("id", "ZG9nQG5hdmVyLmNvbQ==");
-		session.setAttribute("usercode", "OA==");
-		System.out.println("세션 테스트 완료");
+		String usercode = request.getParameter("usercode");
+		session.setAttribute("usercode", usercode);
+		session.setAttribute("id", service.selectMember_userindex(usercode).get(0).getEmail());
+		System.out.println(request.getParameter("usercode")+" 세션 테스트 완료");
 		return "blank";
 	}
 
@@ -635,6 +636,12 @@ public class HomeController {
 		model.addAttribute("service", service);
 		model.addAttribute("decoder", decoder);
 		model.addAttribute("userindex", request.getParameter("ui")+"");
+		
+		String flag = request.getParameter("flag");
+		if(flag == null || flag.equals("") || flag.equals(null)) {
+			flag = "0";
+		}
+		model.addAttribute("flag", flag);
 		return "userjson";
 	}//상품페이지(json전용)
 	
@@ -651,7 +658,7 @@ public class HomeController {
 		
 		model.addAttribute("service", service);
 		model.addAttribute("decoder", decoder);
-		model.addAttribute("userindex", request.getParameter("u")+"");
+		model.addAttribute("uuid", request.getParameter("uuid")+"");
 		return "mobilelogin_json";
 	}
 	//장바구니 페이지)리스트 표시(json전용)
@@ -735,7 +742,7 @@ public class HomeController {
 		b_product.setUser(session.getAttribute("usercode")+"");
 		b_product.setProduct_index(request.getParameter("p"));
 		b_product.setChecked(encoder.Base64StringEncode(request.getParameter("chk")));
-		 
+		 System.out.println("session.getAttribute(\"usercode\") : "+session.getAttribute("usercode"));
 		service.updateBasket_Product_checked(b_product);
 		
 		return "blank";
@@ -1257,4 +1264,27 @@ public class HomeController {
 		//삭제될 유저와 관련된 주문 제품들 리스트 이미지 열 삭제
 		return DBselect(locale, model);
 	}//유저삭제
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/mobilelogin_insert", method = RequestMethod.GET)
+	public String mobilelogin_(HttpServletRequest request, HttpServletResponse response, Locale locale, Model model) throws Exception {
+		if (new UserNoExist().NoExist(service))return home(locale, model);
+		encoder=new Base64Encoding();
+		decoder=new Base64Decoding();
+		XMLPassing xl = new XMLPassing();
+		HttpSession session = request.getSession();
+		
+		String index = request.getParameter("uindex");
+		String uuid = request.getParameter("uuid");
+		
+		List<Moblie_LoginVO> list = service.select_mobilelogin(uuid);
+		if(list.size()==0) {//로그인을 안 한 상태라면?
+			service.insert_mobilelogin(new Moblie_LoginVO(index,uuid));//로그인한 상태로 만든다.(모바일로그인 테이블에 저장)
+		}
+		return "blank";
+	}
+	//장바구니 페이지)리스트 표시(json전용)
 }

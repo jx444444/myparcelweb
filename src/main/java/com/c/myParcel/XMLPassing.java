@@ -37,7 +37,7 @@ public class XMLPassing {
 		
 		System.out.println(Language);
 		
-		Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("F:\\springtest2\\myParcel\\src\\main\\resources\\string_"+Language+".xml"));
+		Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("C:\\Users\\user\\git\\myparcelweb\\src\\main\\resources\\string_"+Language+".xml"));
 		xml.getDocumentElement().normalize();
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		Node node = (Node) xpath.evaluate(expression, xml, XPathConstants.NODE);

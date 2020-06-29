@@ -333,10 +333,13 @@
 	
 	
 	<select id="select_mobilelogin" resultType="mobileloginVO" parameterType="String">
-		select * from moblie_login where `index`=#{userindex}
+		select * from moblie_login where `uuid`=#{uuid}
 	</select>
 	<delete id="delete_mobilelogin" parameterType="String">
-		delete from moblie_login where `index`=#{userindex}
+		delete from moblie_login where `uuid`=#{uuid}
 	</delete>
+	<select id="insert_mobilelogin" parameterType="mobileloginVO">
+		insert into moblie_login values(#{index},#{uuid})
+	</select>
 	
 </mapper>

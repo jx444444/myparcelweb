@@ -23,4 +23,11 @@ public class Mobile_LoginDAOImpl implements Mobile_LoginDAO {
 		return sqlSession.delete(Namespace+".delete_mobilelogin",userindex);
 	}
 
+	@Override
+	public int insert_mobilelogin(Moblie_LoginVO moblie_LoginVO) {
+		return sqlSession.insert(Namespace+".insert_mobilelogin",moblie_LoginVO);
+	}
+
+	
+	
 }

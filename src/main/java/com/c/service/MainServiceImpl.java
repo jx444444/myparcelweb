@@ -389,6 +389,11 @@ public class MainServiceImpl implements MainService {
 	public int delete_mobilelogin(String userindex) throws Exception {
 		return dao8.delete_mobilelogin(userindex);
 	}
+	@Override
+	public int insert_mobilelogin(Moblie_LoginVO moblie_LoginVO) throws Exception {
+		// TODO Auto-generated method stub
+		return dao8.insert_mobilelogin(moblie_LoginVO);
+	}
 	
 	
 	
