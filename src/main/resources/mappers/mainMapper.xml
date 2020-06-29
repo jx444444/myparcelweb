@@ -330,4 +330,13 @@
 		select count(*) as c from `order` where `index`=#{index}
 	</select>
 	
+	
+	
+	<select id="select_mobilelogin" resultType="mobileloginVO" parameterType="String">
+		select * from moblie_login where `index`=#{userindex}
+	</select>
+	<delete id="delete_mobilelogin" parameterType="String">
+		delete from moblie_login where `index`=#{userindex}
+	</delete>
+	
 </mapper>

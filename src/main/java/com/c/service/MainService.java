@@ -73,4 +73,7 @@ public interface MainService {
 	public List<String> select_empty_orderpart(String order_index) throws Exception;
 	public List<String> select_empty_order(String index) throws Exception;
 	public List<MemberVO> selectMember_userindex(String index) throws Exception;
+	
+	public List<Moblie_LoginVO> select_mobilelogin(String userindex) throws Exception;
+	public int delete_mobilelogin(String userindex) throws Exception;
 }

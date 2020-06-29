@@ -379,6 +379,19 @@ public class MainServiceImpl implements MainService {
 	
 	
 	
+	@Inject
+    private Mobile_LoginDAO dao8;
+	@Override
+	public List<Moblie_LoginVO> select_mobilelogin(String userindex) throws Exception {
+		return dao8.select_mobilelogin(userindex);
+	}
+	@Override
+	public int delete_mobilelogin(String userindex) throws Exception {
+		return dao8.delete_mobilelogin(userindex);
+	}
+	
+	
+	
 	
 	
     

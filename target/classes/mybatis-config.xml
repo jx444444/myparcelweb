@@ -11,6 +11,7 @@
 			<typeAlias type="com.c.dto.OrderVO" alias="orderVO"/>
 			<typeAlias type="com.c.dto.Product_StarVO" alias="product_starVO"/>
 			<typeAlias type="com.c.dto.OrderProductPartVO" alias="orderproductpartVO"/>
+			<typeAlias type="com.c.dto.Moblie_LoginVO" alias="mobileloginVO"/>
 		</typeAliases>
 	</configuration>
 	

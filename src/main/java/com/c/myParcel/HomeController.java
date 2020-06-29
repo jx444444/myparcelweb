@@ -641,6 +641,24 @@ public class HomeController {
 	
 	
 	
+	@RequestMapping(value = "/mobilelogin_json", method = RequestMethod.GET)
+	public String mobilelogin_json(HttpServletRequest request, HttpServletResponse response, Locale locale, Model model) throws Exception {
+		if (new UserNoExist().NoExist(service))return home(locale, model);
+		encoder=new Base64Encoding();
+		decoder=new Base64Decoding();
+		XMLPassing xl = new XMLPassing();
+		HttpSession session = request.getSession();
+		
+		model.addAttribute("service", service);
+		model.addAttribute("decoder", decoder);
+		model.addAttribute("userindex", request.getParameter("u")+"");
+		return "mobilelogin_json";
+	}
+	//장바구니 페이지)리스트 표시(json전용)
+	
+	
+	
+	
 	@RequestMapping(value = "/basketorder", method = RequestMethod.GET)
 	public String basketorder(HttpServletRequest request, HttpServletResponse response, Locale locale, Model model) throws Exception {
 		if (new UserNoExist().NoExist(service))return home(locale, model);
